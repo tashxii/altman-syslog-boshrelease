@@ -1,0 +1,20 @@
+name: altman-syslog
+version: 0.0.1
+commit_hash: b6033dc
+uncommitted_changes: true
+jobs:
+- name: altman-syslog
+  version: ac5e6a0f1977bbc261f4ad54b5a779da3d9c7e29
+  fingerprint: ac5e6a0f1977bbc261f4ad54b5a779da3d9c7e29
+  sha1: 033d1889ff311244b68c5e70e1654ae7109d224b
+packages:
+- name: altman-syslog
+  version: 44d26eb553dfd7ca0884023d1ca8332a195ebc09
+  fingerprint: 44d26eb553dfd7ca0884023d1ca8332a195ebc09
+  sha1: 3a922bfe4e780af142f4fa13d901541ccbc544d4
+  dependencies: []
+- name: node
+  version: 79eb0b067432883bd8710c9b9daa88e885b631a6
+  fingerprint: 79eb0b067432883bd8710c9b9daa88e885b631a6
+  sha1: 58a09b7239564d0c809d21ad1e4a26b4e76b2728
+  dependencies: []

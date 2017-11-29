@@ -1,0 +1,5 @@
+check process altman-syslog
+  with pidfile /var/vcap/sys/run/altman-syslog/altman-syslog.pid
+  start program "/var/vcap/jobs/altman-syslog/bin/ctl start"
+  stop program "/var/vcap/jobs/altman-syslog/bin/ctl stop"
+  group vcap

@@ -1,0 +1,7 @@
+---
+name: altman-syslog
+
+dependencies: []
+
+files: 
+- altman-syslog/altman-syslog-offline.zip

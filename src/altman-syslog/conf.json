@@ -1,0 +1,10 @@
+{
+  "_usage": "For syslog configurations, see https://github.com/strongloop/modern-syslog",
+  "_http_url_example": "[http://localhost:8933/syslog or http://localhost:8933/console]",
+  "http_host": "localhost",
+  "http_port": 8933,
+  "syslog_priority": "LOG_INFO",
+  "syslog_options": "LOG_PID|LOG_ODELAY",
+  "syslog_facility": "LOG_LOCAL0",
+  "syslog_indent": ""
+}

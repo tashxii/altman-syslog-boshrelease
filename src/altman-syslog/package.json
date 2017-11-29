@@ -1,0 +1,14 @@
+{
+  "name": "altman-syslog",
+  "version": "1.0.0",
+  "description": "AlertManager message to syslog.",
+  "main": "altman-syslog.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "t-shimoda",
+  "license": "MIT",
+  "dependencies": {
+    "modern-syslog": "^1.1.4"
+  }
+}

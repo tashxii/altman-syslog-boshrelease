@@ -1,8 +1,9 @@
 {
   "name": "altman-syslog",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "AlertManager message to syslog.",
   "main": "altman-syslog.js",
+  "engines": {"node": "~8"},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

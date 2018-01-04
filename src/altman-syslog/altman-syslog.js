@@ -33,39 +33,45 @@ try{
     var server = http.createServer(function(req,res) {
         if( req.method === "POST" ) {
             var body = "";
-                //retrieve post body
-                req.on('readable', function(chunk) {
-                    var data = req.read(); 
-                    if( data ) {
-                        body += data;
-                    }
-                });
-                req.on('end', function() {
-                    try{
-                        var postJson = JSON.parse(body);
-                        //create message by somehow.
-                        var message = JSON.stringify(postJson);
-                        if( req.url === "/syslog" ) {
-                            syslog.open(conf.syslog_indent, syslog_options, conf.syslog_facility);
+            //retrieve post body
+            req.on('readable', function(chunk) {
+                var data = req.read(); 
+                if( data ) {
+                    body += data;
+                }
+            });
+            req.on('end', function() {
+                try{
+                    var postJson = JSON.parse(body);
+                    //create message splitting by alerts.
+                    var messages = splitByAlerts(postJson);
+                    if( req.url === "/syslog" ) {
+                        syslog.open(conf.syslog_indent, syslog_options, conf.syslog_facility);
+                        for(var i=0; i<messages.length; i++) {
+                            var message = messages[i];
                             syslog.log(conf.syslog_priority, message);
-                            syslog.close();
-                            res.statusCode = 200;
-                            res.end();
-                        } else if( req.url === "/console" ) {
-                            res.statusCode = 200;
-                            console.log("----");
-                            console.log(message);
-                            console.log("----");
-                            res.end(message);
-                        } else {
-                            res.statusCode = 404;
-                            res.end("Not found.");
                         }
-                    } catch(err) {
-                        res.statusCode = 500;
-                        res.end("Internal server error. Details:" + err.message);
+                        syslog.close();
+                        res.statusCode = 200;
+                        res.end();
+                    } else if( req.url === "/console" ) {
+                        res.statusCode = 200;
+                        console.log("----");
+                        for(var i=0; i<messages.length; i++) {
+                            var message = messages[i];
+                            console.log(message);
+                        }
+                        console.log("----");
+                        res.end(message);
+                    } else {
+                        res.statusCode = 404;
+                        res.end("Not found.");
                     }
-                });
+                } catch(err) {
+                    res.statusCode = 500;
+                    res.end("Internal server error. Details:" + err.message);
+                }
+            });
         } else if( req.method === "GET" ) {
             if( req.url === "/stop" ) {
                 res.statusCode = 200;
@@ -87,4 +93,23 @@ try{
     server.listen(conf.http_port, conf.http_host)
 } catch(err) {
     console.log("An error occurred. Details:" + err.message);
+}
+
+function splitByAlerts(postJson) {
+    var messages = [];
+    var alerts = postJson.alerts;
+    if(alerts && Array.isArray(alerts)) {
+        if( alerts.length === 0 ) {
+            messages.push(JSON.stringify(postJson));
+        } else {
+            for(var i=0; i<alerts.length; i++) {
+                var copyJson = Object.assign(postJson);
+                copyJson.alerts = [alerts[i]];
+                messages.push(JSON.stringify(copyJson));
+            }
+        }
+    } else {
+        messages.push(JSON.stringify(postJson));
+    }
+    return messages;
 }
